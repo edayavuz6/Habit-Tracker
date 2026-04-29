@@ -1,6 +1,8 @@
 📌 About the Project
 This is a modern, functional, and aesthetically pleasing habit-tracking web application. The primary goal of this project was to handle complex data logic using Vanilla JavaScript while providing a high-quality user experience (UX).
 
+LIVE CODE : https://edayavuz6.github.io/Habit-Tracker/
+
 ✨ Key Features
 Dual View System: Seamless toggle between Daily List view and Weekly Matrix view.
 
