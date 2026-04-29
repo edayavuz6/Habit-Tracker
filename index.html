@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alışkanlık Takipçisi</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="app.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <button id="themeToggle" class="theme-btn">🌙</button>
+      </header>
+      <header>
+        <div class="header-badge">🌸 Günlük Takip</div>
+        <h1>Alışkanlık<br /><em>Takipçim</em></h1>
+        <p>Küçük adımlar, büyük değişimler yaratır.</p>
+      </header>
+
+      <div class="motivation">
+        <span class="mot-icon" id="motIcon">✨</span>
+        <span class="mot-text" id="motText"></span>
+      </div>
+
+      <div class="tab-bar">
+        <button
+          class="tab-btn active"
+          id="tabDaily"
+          onclick="switchTab('daily')"
+        >
+          📅 Günlük
+        </button>
+        <button class="tab-btn" id="tabWeekly" onclick="switchTab('weekly')">
+          🗓️ Haftalık
+        </button>
+      </div>
+
+      <div id="dailyView">
+        <div class="add-section">
+          <h2>✦ Yeni Alışkanlık Ekle</h2>
+          <div class="add-row">
+            <input
+              type="text"
+              id="habitInput"
+              placeholder="Örn: Kitap oku, 2L su iç, Yürüyüş yap…"
+              maxlength="40"
+            />
+            <div class="color-picks" id="colorPicks">
+              <div
+                class="color-dot selected"
+                data-color="pink"
+                title="Pembe"
+              ></div>
+              <div class="color-dot" data-color="peach" title="Şeftali"></div>
+              <div class="color-dot" data-color="lavender" title="Mor"></div>
+              <div class="color-dot" data-color="mint" title="Yeşil"></div>
+              <div class="color-dot" data-color="sky" title="Mavi"></div>
+              <div class="color-dot" data-color="yellow" title="Sarı"></div>
+            </div>
+            <button class="btn-add" onclick="addHabit()">+ Ekle</button>
+          </div>
+        </div>
+
+        <div class="date-bar"><span id="dateLabel"></span></div>
+        <div class="habits-list" id="habitsList"></div>
+
+        <div class="empty-state" id="emptyState" style="display: none">
+          <div class="big-emoji">🌱</div>
+          <p>
+            Henüz alışkanlık eklemedin.<br />İlk adımı atmak en önemli adımdır!
+          </p>
+        </div>
+
+        <div class="summary" id="summaryBox" style="display: none">
+          <h2>📊 Bugünkü İlerleme</h2>
+          <div class="progress-bar-wrap">
+            <div
+              class="progress-bar-fill"
+              id="progressFill"
+              style="width: 0%"
+            ></div>
+          </div>
+          <p class="progress-text" id="progressText"></p>
+        </div>
+      </div>
+
+      <div id="weeklyView" style="display: none" class="weekly-section">
+        <div class="week-grid">
+          <div class="week-header" id="weekHeader"></div>
+          <div class="week-divider"></div>
+          <div id="weekRows"></div>
+        </div>
+        <div class="week-stats" id="weekStats"></div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
