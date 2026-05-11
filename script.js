@@ -2,16 +2,22 @@ const STORAGE_KEY = "habit_tracker_v4";
 const today = new Date().toISOString().slice(0, 10);
 
 const MOTIVATIONS = [
-  { icon: "🌸", text: "Küçük adımlar, büyük değişimler yaratır." },
-  { icon: "✨", text: "Her gün biraz daha güçleniyorsun. Devam et!" },
-  { icon: "🌿", text: "Tutarlılık, mükemmeliyetten çok daha değerlidir." },
-  { icon: "🦋", text: "Değişim zamanla gelir. Bugün de önemli bir gün." },
-  { icon: "🌈", text: "Kendine iyi davranmak da bir alışkanlıktır." },
-  { icon: "🔥", text: "Streakini kırmadan bugünü tamamla!" },
-  { icon: "💫", text: "En iyi zaman şimdi. En iyi sen bugünkü sensin." },
-  { icon: "🌙", text: "Dünden daha iyi olmak, en güzel zafer." },
-  { icon: "🎯", text: "Hedefine her gün bir adım daha yaklaşıyorsun." },
-  { icon: "🌺", text: "İyi alışkanlıklar, geleceğin sana verdiği hediyedir." },
+  { icon: "🌸", text: "Small steps lead to big changes." },
+  { icon: "✨", text: "You're getting stronger every day. Keep going!" },
+  { icon: "🌿", text: "Consistency is more valuable than perfection." },
+  { icon: "🦋", text: "Change takes time. Today is an important day." },
+  { icon: "🌈", text: "Being kind to yourself is also a habit." },
+  { icon: "🔥", text: "Complete today and keep your streak alive!" },
+  { icon: "💫", text: "The best time is now. The best you is today's you." },
+  { icon: "🌙", text: "Being better than yesterday is the greatest victory." },
+  {
+    icon: "🎯",
+    text: "You're getting one step closer to your goal every day.",
+  },
+  {
+    icon: "🌺",
+    text: "Good habits are gifts your future self will thank you for.",
+  },
 ];
 
 let state = (() => {
@@ -26,8 +32,9 @@ let selectedColor = "pink";
 let currentTab = "daily";
 
 function init() {
-document.getElementById("dateLabel").textContent =   
-    new Date().toLocaleDateString("tr-TR", {
+  // Tarih formatını İngilizceye (US) çevirdik
+  document.getElementById("dateLabel").textContent =
+    new Date().toLocaleDateString("en-US", {
       weekday: "long",
       year: "numeric",
       month: "long",
@@ -87,8 +94,8 @@ function render() {
     const hot = h.streak >= 3;
     const badge =
       h.streak > 0
-        ? `<span class="streak-badge ${hot ? "hot" : ""}">${hot ? "🔥" : "⭐"} ${h.streak} gün seri</span>`
-        : `<span class="streak-badge">✨ Yeni başlangıç</span>`;
+        ? `<span class="streak-badge ${hot ? "hot" : ""}">${hot ? "🔥" : "⭐"} ${h.streak} day streak</span>`
+        : `<span class="streak-badge">✨ Fresh start</span>`;
 
     card.innerHTML = `
             <button class="check-btn" onclick="toggleHabit(${i})">${h.doneToday ? "✓" : ""}</button>
@@ -96,7 +103,7 @@ function render() {
                 <div class="habit-name">${esc(h.name)}</div>
                 ${badge}
             </div>
-            <button class="delete-btn" onclick="deleteHabit(${i})" title="Sil">✕</button>
+            <button class="delete-btn" onclick="deleteHabit(${i})" title="Delete">✕</button>
         `;
     list.appendChild(card);
   });
@@ -106,7 +113,7 @@ function render() {
   const pct = total ? Math.round((done / total) * 100) : 0;
   document.getElementById("progressFill").style.width = pct + "%";
   document.getElementById("progressText").innerHTML =
-    `Bugün <span>${done}/${total}</span> alışkanlığı tamamladın — <span>%${pct}</span>`;
+    `Today you completed <span>${done}/${total}</span> habits — <span>${pct}%</span>`;
 }
 
 function addHabit() {
@@ -190,7 +197,7 @@ function getWeekDates() {
 
 function renderWeekly() {
   const dates = getWeekDates();
-  const dayNames = ["Pzt", "Sal", "Çar", "Per", "Cum", "Cmt", "Paz"];
+  const dayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
   document.getElementById("weekHeader").innerHTML =
     "<div></div>" +
@@ -207,7 +214,7 @@ function renderWeekly() {
 
   if (!state.habits.length) {
     rowsEl.innerHTML =
-      '<p style="text-align:center;color:var(--text-soft);padding:28px 0;font-size:.9rem;">Henüz alışkanlık eklemedin.</p>';
+      '<p style="text-align:center;color:var(--text-soft);padding:28px 0;font-size:.9rem;">No habits added yet.</p>';
     document.getElementById("weekStats").innerHTML = "";
     return;
   }
@@ -247,9 +254,9 @@ function renderWeekly() {
   const pct = possible ? Math.round((totalDone / possible) * 100) : 0;
 
   document.getElementById("weekStats").innerHTML = `
-        <div class="week-stat"><div class="stat-val">${totalDone}</div><div class="stat-label">Bu hafta tamamlanan</div></div>
-        <div class="week-stat"><div class="stat-val">%${pct}</div><div class="stat-label">Haftalık başarı</div></div>
-        <div class="week-stat"><div class="stat-val">${bestStreak}🔥</div><div class="stat-label">En uzun seri</div></div>
+        <div class="week-stat"><div class="stat-val">${totalDone}</div><div class="stat-label">Completed this week</div></div>
+        <div class="week-stat"><div class="stat-val">${pct}%</div><div class="stat-label">Weekly success</div></div>
+        <div class="week-stat"><div class="stat-val">${bestStreak}🔥</div><div class="stat-label">Best streak</div></div>
     `;
 }
 
@@ -291,10 +298,7 @@ if (localStorage.getItem("theme") === "dark") {
 
 themeToggle.addEventListener("click", () => {
   document.body.classList.toggle("dark-mode");
-
   const isDark = document.body.classList.contains("dark-mode");
-
   themeToggle.textContent = isDark ? "☀️" : "🌙";
-
   localStorage.setItem("theme", isDark ? "dark" : "light");
 });
